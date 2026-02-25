@@ -12,6 +12,5 @@ jobs:
   build-prerelease:
     uses: ./.github/workflows/cd-template.yml
     with:
-      APP_NAME: watcher
       DRAFT: true
     secrets: inherit

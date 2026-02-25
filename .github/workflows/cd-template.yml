@@ -3,9 +3,6 @@ name: template
 on:
   workflow_call:
     inputs:
-      APP_NAME:
-        required: true
-        type: string
       DRAFT:
         required: true
         type: boolean
@@ -42,18 +39,17 @@ jobs:
       - name: Package Linux & macOS
         if: matrix.os != 'windows-latest'
         run: |
-          tar -czf ${{ APP_NAME }}-${{ github.ref_name }}-${{ matrix.target }}.tar.gz \
-            -C target/${{ matrix.target }}/release ${{ APP_NAME }}
+          tar -czf watcher-${{ github.ref_name }}-${{ matrix.target }}.tar.gz \
+            -C target/${{ matrix.target }}/release watcher
 
       - name: Package Windows
         if: matrix.os == 'windows-latest'
         run: |
           Compress-Archive `
-            target/${{ matrix.target }}/release/${{ APP_NAME }}.exe `
-            ${{ APP_NAME }}-${{ github.ref_name }}-${{ matrix.target }}.zip
+            target/${{ matrix.target }}/release/watcher.exe `
+            watcher-${{ github.ref_name }}-${{ matrix.target }}.zip
 
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ APP_NAME }}-*
-          draft: ${{ DRAFT }}
+          files: watcher-*
