@@ -1,0 +1,14 @@
+[package]
+name = "watcher"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+notify = "8.2.0"
+clap = { version = "4.5.60", features = ["derive"] }
+self_update = { version = "0.42.0", features = [
+    "archive-tar",
+    "archive-zip",
+    "compression-flate2",
+    "compression-zip-deflate"
+] }
