@@ -1,9 +1,10 @@
 mod commands;
 
 use clap::{Parser, Subcommand};
+use self_update::cargo_crate_version;
 
 #[derive(Parser, Debug)]
-#[command(name = "watcher", version = "0.1.4-beta.7")]
+#[command(name = "watcher", version = cargo_crate_version!())]
 struct Cli {
     #[command(subcommand)]
     command: Command,
