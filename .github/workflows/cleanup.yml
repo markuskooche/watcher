@@ -1,0 +1,41 @@
+name: Cleanup
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup-artifacts:
+    name: Cleanup Artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+        with:
+          fetch-tags: true
+
+      - name: Delete pre-releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          git fetch --tags
+          
+          TAGS_TO_DELETE=$(git tag -l \
+            "${VERSION}-alpha.*" \
+            "${VERSION}-beta.*" \
+            "${VERSION}-rc.*")
+          
+          if [ -z "$TAGS_TO_DELETE" ]; then
+            exit 0
+          fi
+          
+          while IFS= read -r TAG; do
+            gh release delete "$TAG" --cleanup-tag --yes 2>/dev/null \
+              || git push origin --delete "$TAG"
+          done <<< "$TAGS_TO_DELETE"
