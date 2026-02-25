@@ -2176,7 +2176,7 @@ dependencies = [
 
 [[package]]
 name = "watcher"
-version = "0.1.4-beta.8"
+version = "0.1.5"
 dependencies = [
  "clap",
  "notify",
