@@ -11,24 +11,24 @@ struct Cli {
 
 #[derive(Subcommand, Debug)]
 enum Command {
-    Watch,
-    Update,
+    Watch(commands::watch::WatchArgs),
+    Update(commands::update::UpdateArgs),
 }
 
 fn main() -> notify::Result<()> {
     let args = Cli::parse();
 
     match args.command {
-        Command::Update => {
-            if let Err(error) = commands::update::run() {
+        Command::Update(args) => {
+            if let Err(error) = commands::update::run(args) {
                 eprintln!("Update command failed: {}", error);
                 std::process::exit(1);
             }
 
             Ok(())
         },
-        Command::Watch => {
-            if let Err(error) = commands::watch::run() {
+        Command::Watch(args) => {
+            if let Err(error) = commands::watch::run(args) {
                 eprintln!("Watch command failed: {}", error);
                 std::process::exit(1);
             }

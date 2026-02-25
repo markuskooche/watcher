@@ -2181,6 +2181,7 @@ dependencies = [
  "clap",
  "notify",
  "self_update",
+ "semver",
 ]
 
 [[package]]
