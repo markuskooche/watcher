@@ -1,6 +1,10 @@
 use self_update::cargo_crate_version;
 use clap::Args;
 
+const ORGANIZATION: &str = "markuskooche";
+const REPOSITORY: &str = "watcher";
+const BINARY: &str = "watcher";
+
 #[derive(Args, Debug)]
 pub struct UpdateArgs {
     #[arg(long, default_value_t = false)]
@@ -12,8 +16,8 @@ pub fn run(args: UpdateArgs) -> Result<(), Box<dyn std::error::Error>> {
     println!("Current Version: {}", cargo_crate_version!());
 
     let releases = self_update::backends::github::ReleaseList::configure()
-        .repo_owner("markuskooche")
-        .repo_name("watcher")
+        .repo_owner(ORGANIZATION)
+        .repo_name(REPOSITORY)
         .build()?
         .fetch()?;
 
@@ -42,9 +46,9 @@ pub fn run(args: UpdateArgs) -> Result<(), Box<dyn std::error::Error>> {
             println!("New version available: {} -> {}", current, latest);
 
             let status = self_update::backends::github::Update::configure()
-                .repo_owner("markuskooche")
-                .repo_name("watcher")
-                .bin_name("watcher")
+                .repo_owner(ORGANIZATION)
+                .repo_name(REPOSITORY)
+                .bin_name(BINARY)
                 .show_download_progress(true)
                 .target_version_tag(&format!("{}", release.version))
                 .current_version(cargo_crate_version!())
