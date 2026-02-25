@@ -23,6 +23,11 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v6
 
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
       - name: Build application
         run: cargo build --release --target ${{ matrix.target }}
 
