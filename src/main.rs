@@ -4,7 +4,7 @@ mod watch;
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(name = "watcher", version = "0.1.1")]
+#[command(name = "watcher", version = "0.1.2")]
 struct Cli {
     #[command(subcommand)]
     command: Command,
