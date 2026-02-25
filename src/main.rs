@@ -1,10 +1,9 @@
-mod update;
-mod watch;
+mod commands;
 
 use clap::{Parser, Subcommand};
 
 #[derive(Parser, Debug)]
-#[command(name = "watcher", version = "0.1.2")]
+#[command(name = "watcher", version = "0.1.3")]
 struct Cli {
     #[command(subcommand)]
     command: Command,
@@ -21,7 +20,7 @@ fn main() -> notify::Result<()> {
 
     match args.command {
         Command::Update => {
-            if let Err(error) = update::update() {
+            if let Err(error) = commands::update::run() {
                 eprintln!("Update command failed: {}", error);
                 std::process::exit(1);
             }
@@ -29,7 +28,7 @@ fn main() -> notify::Result<()> {
             Ok(())
         },
         Command::Watch => {
-            if let Err(error) = watch::watch() {
+            if let Err(error) = commands::watch::run() {
                 eprintln!("Watch command failed: {}", error);
                 std::process::exit(1);
             }

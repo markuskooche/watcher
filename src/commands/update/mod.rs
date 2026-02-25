@@ -1,6 +1,6 @@
 use self_update::cargo_crate_version;
 
-pub fn update() -> Result<(), Box<dyn std::error::Error>> {
+pub fn run() -> Result<(), Box<dyn std::error::Error>> {
     println!("Searching for updates...");
     println!("Current Version: {}", cargo_crate_version!());
 
@@ -15,7 +15,7 @@ pub fn update() -> Result<(), Box<dyn std::error::Error>> {
 
     match status.updated() {
         true  => println!("Successfully updated to version {}!", status.version()),
-        false => println!("Already up to date ({}).", status.version()),
+        false => println!("Already up to date (v{}).", status.version()),
     }
 
     Ok(())
